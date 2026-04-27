@@ -27,7 +27,12 @@ export default async function GroupChatPage({ params }: Props) {
   const messages = await prisma.message.findMany({
     where: { groupId: id },
     include: {
-      sender: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
+      sender: {
+        select: {
+          id: true, username: true, displayName: true, avatarUrl: true,
+          tags: { select: { tag: { select: { id: true, name: true, color: true } } } },
+        },
+      },
     },
     orderBy: { createdAt: "asc" },
     take: 50,
@@ -36,6 +41,7 @@ export default async function GroupChatPage({ params }: Props) {
   const initialMessages: ChatMessage[] = messages.map((m) => ({
     ...m,
     createdAt: m.createdAt.toISOString(),
+    sender: { ...m.sender, tags: m.sender.tags.map((ut) => ut.tag) },
   }))
 
   const displayName = session.user.name ?? "Gamer"

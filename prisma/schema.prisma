@@ -18,6 +18,7 @@ model User {
   emailVerified DateTime?
   discordId     String?   @unique
   discordTag    String?
+  isAdmin       Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -32,6 +33,25 @@ model User {
   friendsA     Friend[]      @relation("FriendA")
   friendsB     Friend[]      @relation("FriendB")
   otps         Otp[]
+  tags         UserTag[]
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  color     String
+  createdAt DateTime  @default(now())
+  users     UserTag[]
+}
+
+model UserTag {
+  userId     String
+  tagId      String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  assignedAt DateTime @default(now())
+
+  @@id([userId, tagId])
 }
 
 model Account {

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 import { Users, Play, Calendar } from "lucide-react"
 import Link from "next/link"
+import { TagBadge } from "@/components/ui/TagBadge"
 
 interface Props {
   params: Promise<{ id: string }>
@@ -23,6 +24,7 @@ export default async function ProfilePage({ params }: Props) {
       discordTag: true,
       createdAt: true,
       _count: { select: { memberships: true, clips: true } },
+      tags: { select: { tag: { select: { id: true, name: true, color: true } } } },
     },
   })
 
@@ -30,6 +32,7 @@ export default async function ProfilePage({ params }: Props) {
 
   const isOwn = session?.user?.id === user.id
   const joinDate = new Date(user.createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+  const tags = user.tags.map((ut) => ut.tag)
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
@@ -50,6 +53,11 @@ export default async function ProfilePage({ params }: Props) {
               <div>
                 <h1 className="text-xl font-bold text-white">{user.displayName ?? user.username}</h1>
                 <p className="text-slate-400 text-sm">@{user.username}</p>
+                {tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    {tags.map((tag) => <TagBadge key={tag.id} tag={tag} />)}
+                  </div>
+                )}
               </div>
               {isOwn && (
                 <Link

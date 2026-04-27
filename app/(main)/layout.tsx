@@ -9,14 +9,14 @@ export default async function MainLayout({ children }: { children: React.ReactNo
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { id: true, username: true, avatarUrl: true },
+    select: { id: true, username: true, avatarUrl: true, isAdmin: true },
   })
 
   if (!user) redirect("/login")
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar userId={user.id} avatarUrl={user.avatarUrl} username={user.username} />
+      <Sidebar userId={user.id} avatarUrl={user.avatarUrl} username={user.username} isAdmin={user.isAdmin} />
       <main className="flex-1 min-w-0 pb-16 md:pb-0">{children}</main>
     </div>
   )

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import { useSession } from "next-auth/react"
 import { useChat, type ChatMessage } from "@/hooks/useChat"
 import { MessageInput } from "./MessageInput"
+import { TagBadge } from "@/components/ui/TagBadge"
 
 interface ChatWindowProps {
   roomId: string
@@ -33,7 +34,12 @@ function MessageBubble({ msg, isOwn }: { msg: ChatMessage; isOwn: boolean }) {
     <div className={`flex gap-3 group ${isOwn ? "flex-row-reverse" : ""}`}>
       {!isOwn && <Avatar user={msg.sender} />}
       <div className={`max-w-[70%] ${isOwn ? "items-end" : "items-start"} flex flex-col gap-1`}>
-        {!isOwn && <span className="text-xs text-slate-400 px-1">{name}</span>}
+        {!isOwn && (
+          <div className="flex items-center gap-1.5 flex-wrap px-1">
+            <span className="text-xs text-slate-400">{name}</span>
+            {msg.sender.tags?.map((tag) => <TagBadge key={tag.id} tag={tag} small />)}
+          </div>
+        )}
         <div
           className={`px-4 py-2 rounded-2xl text-sm leading-relaxed ${
             isOwn

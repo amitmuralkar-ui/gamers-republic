@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, MessageSquare, Users, Play, Settings, Gamepad2, Search } from "lucide-react"
+import { Home, MessageSquare, Users, Play, Settings, Gamepad2, Search, ShieldCheck } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
@@ -17,9 +17,10 @@ interface SidebarProps {
   userId: string
   avatarUrl?: string | null
   username: string
+  isAdmin?: boolean
 }
 
-export function Sidebar({ userId, avatarUrl, username }: SidebarProps) {
+export function Sidebar({ userId, avatarUrl, username, isAdmin }: SidebarProps) {
   const pathname = usePathname()
 
   return (
@@ -52,6 +53,20 @@ export function Sidebar({ userId, avatarUrl, username }: SidebarProps) {
         </nav>
 
         <div className="p-2 border-t border-slate-800">
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mb-0.5",
+                pathname === "/admin"
+                  ? "bg-amber-500/20 text-amber-400"
+                  : "text-amber-500/70 hover:text-amber-400 hover:bg-amber-500/10"
+              )}
+            >
+              <ShieldCheck className="w-5 h-5 shrink-0" />
+              Admin
+            </Link>
+          )}
           <Link
             href="/settings"
             className={cn(

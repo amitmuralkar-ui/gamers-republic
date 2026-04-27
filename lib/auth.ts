@@ -26,11 +26,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             async authorize(credentials) {
               const username = (credentials?.username as string | undefined)?.trim()
               if (!username) return null
+              const isAdmin = process.env.ADMIN_USERNAME === username
               let user = await prisma.user.findUnique({ where: { username } })
               if (!user) {
                 user = await prisma.user.create({
-                  data: { username, displayName: username },
+                  data: { username, displayName: username, isAdmin },
                 })
+              } else if (isAdmin && !user.isAdmin) {
+                user = await prisma.user.update({ where: { id: user.id }, data: { isAdmin: true } })
               }
               return { id: user.id, name: user.displayName ?? user.username }
             },

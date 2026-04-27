@@ -57,11 +57,17 @@ app.prepare().then(() => {
                   username: true,
                   displayName: true,
                   avatarUrl: true,
+                  tags: { select: { tag: { select: { id: true, name: true, color: true } } } },
                 },
               },
             },
           })
-          io.to(roomId).emit("new-message", message)
+          const broadcast = {
+            ...message,
+            createdAt: message.createdAt.toISOString(),
+            sender: { ...message.sender, tags: message.sender.tags.map((ut) => ut.tag) },
+          }
+          io.to(roomId).emit("new-message", broadcast)
         } catch {
           socket.emit("error", "Failed to send message")
         }

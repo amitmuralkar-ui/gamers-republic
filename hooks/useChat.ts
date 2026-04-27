@@ -12,6 +12,7 @@ export interface ChatMessage {
     username: string
     displayName: string | null
     avatarUrl: string | null
+    tags: { id: string; name: string; color: string }[]
   }
 }
 
