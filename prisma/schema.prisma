@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  username      String    @unique
+  displayName   String?
+  bio           String?
+  avatarUrl     String?
+  phone         String?   @unique
+  phoneVerified DateTime?
+  email         String?   @unique
+  emailVerified DateTime?
+  discordId     String?   @unique
+  discordTag    String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts     Account[]
+  sessions     Session[]
+  ownedGroups  Group[]       @relation("GroupOwner")
+  memberships  GroupMember[]
+  sentMessages Message[]
+  clips        Clip[]
+  clipComments ClipComment[]
+  clipLikes    ClipLike[]
+  friendsA     Friend[]      @relation("FriendA")
+  friendsB     Friend[]      @relation("FriendB")
+  otps         Otp[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Otp {
+  id        String   @id @default(cuid())
+  phone     String
+  code      String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model Group {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  iconUrl     String?
+  isPublic    Boolean       @default(true)
+  inviteCode  String?       @unique
+  ownerId     String
+  owner       User          @relation("GroupOwner", fields: [ownerId], references: [id])
+  members     GroupMember[]
+  messages    Message[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model GroupMember {
+  groupId  String
+  userId   String
+  role     String   @default("member")
+  joinedAt DateTime @default(now())
+  group    Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([groupId, userId])
+}
+
+model DirectRoom {
+  id        String    @id @default(cuid())
+  user1Id   String
+  user2Id   String
+  messages  Message[]
+  createdAt DateTime  @default(now())
+
+  @@unique([user1Id, user2Id])
+}
+
+model Message {
+  id           String      @id @default(cuid())
+  content      String
+  senderId     String
+  sender       User        @relation(fields: [senderId], references: [id])
+  groupId      String?
+  group        Group?      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  directRoomId String?
+  directRoom   DirectRoom? @relation(fields: [directRoomId], references: [id], onDelete: Cascade)
+  type         String      @default("text")
+  createdAt    DateTime    @default(now())
+}
+
+model Clip {
+  id           String        @id @default(cuid())
+  title        String
+  description  String?
+  videoUrl     String
+  thumbnailUrl String?
+  duration     Float?
+  uploaderId   String
+  uploader     User          @relation(fields: [uploaderId], references: [id])
+  likes        ClipLike[]
+  comments     ClipComment[]
+  createdAt    DateTime      @default(now())
+}
+
+model ClipLike {
+  clipId String
+  userId String
+  clip   Clip   @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([clipId, userId])
+}
+
+model ClipComment {
+  id        String   @id @default(cuid())
+  content   String
+  clipId    String
+  clip      Clip     @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Friend {
+  id        String   @id @default(cuid())
+  userAId   String
+  userBId   String
+  status    String   @default("pending")
+  userA     User     @relation("FriendA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB     User     @relation("FriendB", fields: [userBId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userAId, userBId])
+}
