@@ -78,7 +78,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (account?.provider === "google" || account?.provider === "discord") {
         try {
           const email = user.email ?? null
-          let dbUser = email ? await prisma.user.findUnique({ where: { email } }) : null
+          const discordId = account.provider === "discord" ? account.providerAccountId : null
+
+          // find by email first, then by discordId
+          let dbUser =
+            (email ? await prisma.user.findUnique({ where: { email } }) : null) ??
+            (discordId ? await prisma.user.findUnique({ where: { discordId } }) : null)
 
           if (!dbUser) {
             const base = (user.name ?? email ?? "gamer")
@@ -94,11 +99,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 displayName: user.name ?? username,
                 email,
                 avatarUrl: user.image ?? null,
-                emailVerified: new Date(),
+                emailVerified: email ? new Date() : null,
+                discordId,
                 isAdmin: process.env.ADMIN_USERNAME === username,
               },
             })
+          } else if (discordId && !dbUser.discordId) {
+            dbUser = await prisma.user.update({ where: { id: dbUser.id }, data: { discordId } })
           }
+
           user.id = dbUser.id
           return true
         } catch (e) {
