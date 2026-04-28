@@ -1,12 +1,10 @@
 import NextAuth from "next-auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
 import Google from "next-auth/providers/google"
 import Discord from "next-auth/providers/discord"
 import Credentials from "next-auth/providers/credentials"
 import { prisma } from "@/lib/db"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [
     Google({
@@ -76,6 +74,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === "google" || account?.provider === "discord") {
+        try {
+          const email = user.email ?? null
+          let dbUser = email ? await prisma.user.findUnique({ where: { email } }) : null
+
+          if (!dbUser) {
+            const base = (user.name ?? email ?? "gamer")
+              .toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 18) || "gamer"
+            let username = base
+            let n = 0
+            while (await prisma.user.findUnique({ where: { username } })) {
+              username = `${base}${++n}`
+            }
+            dbUser = await prisma.user.create({
+              data: {
+                username,
+                displayName: user.name ?? username,
+                email,
+                avatarUrl: user.image ?? null,
+                emailVerified: new Date(),
+                isAdmin: process.env.ADMIN_USERNAME === username,
+              },
+            })
+          }
+          user.id = dbUser.id
+          return true
+        } catch (e) {
+          console.error("OAuth signIn error:", e)
+          return false
+        }
+      }
+      return true
+    },
     jwt({ token, user }) {
       if (user) token.id = user.id
       return token
