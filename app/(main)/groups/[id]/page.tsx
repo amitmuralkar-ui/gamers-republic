@@ -52,8 +52,8 @@ export default async function GroupChatPage({ params }: Props) {
       <div className="shrink-0 border-b border-slate-800 bg-slate-900">
         <div className="flex items-center justify-between px-5 py-3.5">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-violet-600/20 flex items-center justify-center">
-              <Users className="w-4 h-4 text-violet-400" />
+            <div className="w-9 h-9 rounded-lg bg-orange-600/20 flex items-center justify-center">
+              <Users className="w-4 h-4 text-orange-400" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">

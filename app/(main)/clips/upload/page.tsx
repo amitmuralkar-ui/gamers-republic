@@ -90,9 +90,9 @@ export default function UploadClipPage() {
         {!file ? (
           <div
             onClick={() => inputRef.current?.click()}
-            className="border-2 border-dashed border-slate-700 hover:border-violet-500 rounded-xl p-10 text-center cursor-pointer transition-colors group"
+            className="border-2 border-dashed border-slate-700 hover:border-orange-500 rounded-xl p-10 text-center cursor-pointer transition-colors group"
           >
-            <Upload className="w-10 h-10 text-slate-500 group-hover:text-violet-400 mx-auto mb-3 transition-colors" />
+            <Upload className="w-10 h-10 text-slate-500 group-hover:text-orange-400 mx-auto mb-3 transition-colors" />
             <p className="text-white font-medium">Click to select a clip</p>
             <p className="text-slate-500 text-sm mt-1">MP4, WebM · Max 5:00 minutes</p>
           </div>
@@ -119,7 +119,7 @@ export default function UploadClipPage() {
 
         {loading && progress > 0 && (
           <div className="w-full bg-slate-800 rounded-full h-1.5">
-            <div className="bg-violet-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+            <div className="bg-orange-500 h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         )}
 

@@ -42,8 +42,8 @@ export default function JoinGroupPage() {
 
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
         <div className="text-center py-4">
-          <div className="w-16 h-16 bg-violet-600/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Hash className="w-8 h-8 text-violet-400" />
+          <div className="w-16 h-16 bg-orange-600/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Hash className="w-8 h-8 text-orange-400" />
           </div>
           <p className="text-slate-300 text-sm">Enter the invite code shared by the group owner</p>
         </div>

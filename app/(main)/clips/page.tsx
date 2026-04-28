@@ -22,7 +22,7 @@ export default async function ClipsPage() {
         <h1 className="text-2xl font-bold text-white">Clips</h1>
         <Link
           href="/clips/upload"
-          className="flex items-center gap-1.5 text-sm font-medium bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-xl transition-colors"
+          className="flex items-center gap-1.5 text-sm font-medium bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-xl transition-colors"
         >
           <Plus className="w-4 h-4" /> Upload
         </Link>

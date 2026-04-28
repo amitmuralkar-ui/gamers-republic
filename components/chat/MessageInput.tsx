@@ -24,7 +24,7 @@ export function MessageInput({ onSend, onTyping, disabled, placeholder = "Messag
 
   return (
     <div className="p-4 border-t border-slate-800 bg-slate-900">
-      <div className="flex items-end gap-2 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 focus-within:border-violet-500 transition-colors">
+      <div className="flex items-end gap-2 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 focus-within:border-orange-500 transition-colors">
         <textarea
           ref={inputRef}
           rows={1}
@@ -46,7 +46,7 @@ export function MessageInput({ onSend, onTyping, disabled, placeholder = "Messag
         <button
           onClick={submit}
           disabled={!value.trim() || disabled}
-          className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors mb-0.5"
+          className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-orange-600 hover:bg-orange-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors mb-0.5"
         >
           <Send className="w-4 h-4 text-white" />
         </button>

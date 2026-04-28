@@ -106,7 +106,7 @@ export function TagManager({ initialTags }: { initialTags: Tag[] }) {
               placeholder="Tag name (e.g. Admin, MVP, Streamer)"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 text-white text-sm px-3 py-2.5 rounded-xl outline-none focus:border-violet-500"
+              className="w-full bg-slate-800 border border-slate-700 text-white text-sm px-3 py-2.5 rounded-xl outline-none focus:border-orange-500"
             />
             <div className="flex flex-wrap gap-2">
               {PRESET_COLORS.map((c) => (
@@ -134,7 +134,7 @@ export function TagManager({ initialTags }: { initialTags: Tag[] }) {
             <button
               type="submit"
               disabled={creating || !newName.trim()}
-              className="w-full flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-semibold px-4 py-2.5 rounded-xl transition-colors text-sm"
+              className="w-full flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white font-semibold px-4 py-2.5 rounded-xl transition-colors text-sm"
             >
               <Plus className="w-4 h-4" /> Create Tag
             </button>
@@ -170,7 +170,7 @@ export function TagManager({ initialTags }: { initialTags: Tag[] }) {
             placeholder="Search by username…"
             value={userQuery}
             onChange={(e) => searchUsers(e.target.value)}
-            className="w-full bg-slate-800 border border-slate-700 text-white text-sm px-3 py-2.5 rounded-xl outline-none focus:border-violet-500"
+            className="w-full bg-slate-800 border border-slate-700 text-white text-sm px-3 py-2.5 rounded-xl outline-none focus:border-orange-500"
           />
           {searching && <span className="absolute right-3 top-2.5 text-slate-500 text-xs">…</span>}
         </div>

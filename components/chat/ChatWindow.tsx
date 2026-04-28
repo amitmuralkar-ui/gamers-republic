@@ -43,7 +43,7 @@ function MessageBubble({ msg, isOwn }: { msg: ChatMessage; isOwn: boolean }) {
         <div
           className={`px-4 py-2 rounded-2xl text-sm leading-relaxed ${
             isOwn
-              ? "bg-violet-600 text-white rounded-tr-sm"
+              ? "bg-orange-600 text-white rounded-tr-sm"
               : "bg-slate-800 text-slate-100 rounded-tl-sm"
           }`}
         >

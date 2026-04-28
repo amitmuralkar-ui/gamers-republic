@@ -42,7 +42,7 @@ export function VoiceRoom({ roomName, displayName }: VoiceRoomProps) {
     return (
       <button
         onClick={join}
-        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-500 rounded-xl transition-colors"
+        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-orange-600 hover:bg-orange-500 rounded-xl transition-colors"
       >
         <Mic className="w-4 h-4" /> Join Voice
       </button>

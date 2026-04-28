@@ -25,7 +25,7 @@ export default async function GroupsPage() {
           </Link>
           <Link
             href="/groups/new"
-            className="text-sm font-medium bg-violet-600 hover:bg-violet-500 text-white px-4 py-2 rounded-xl transition-colors flex items-center gap-1.5"
+            className="text-sm font-medium bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-xl transition-colors flex items-center gap-1.5"
           >
             <Plus className="w-4 h-4" /> Create
           </Link>
@@ -44,13 +44,13 @@ export default async function GroupsPage() {
             <Link
               key={group.id}
               href={`/groups/${group.id}`}
-              className="flex items-center gap-4 p-4 bg-slate-900 border border-slate-800 hover:border-violet-500/40 rounded-2xl transition-colors group"
+              className="flex items-center gap-4 p-4 bg-slate-900 border border-slate-800 hover:border-orange-500/40 rounded-2xl transition-colors group"
             >
-              <div className="w-12 h-12 rounded-xl bg-violet-600/20 border border-violet-500/20 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-orange-600/20 border border-orange-500/20 flex items-center justify-center shrink-0">
                 {group.iconUrl ? (
                   <img src={group.iconUrl} alt={group.name} className="w-full h-full object-cover rounded-xl" />
                 ) : (
-                  <Users className="w-5 h-5 text-violet-400" />
+                  <Users className="w-5 h-5 text-orange-400" />
                 )}
               </div>
               <div className="flex-1 min-w-0">
@@ -64,7 +64,7 @@ export default async function GroupsPage() {
                 </div>
                 <p className="text-slate-400 text-sm">{group._count.members} members</p>
               </div>
-              <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-violet-400 transition-colors shrink-0" />
+              <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-orange-400 transition-colors shrink-0" />
             </Link>
           ))}
         </div>

@@ -116,7 +116,7 @@ export function PhoneOTPForm({ onBack }: PhoneOTPFormProps) {
           </Button>
           <button
             onClick={sendOTP}
-            className="w-full text-sm text-slate-400 hover:text-violet-400 transition-colors"
+            className="w-full text-sm text-slate-400 hover:text-orange-400 transition-colors"
           >
             Resend code
           </button>

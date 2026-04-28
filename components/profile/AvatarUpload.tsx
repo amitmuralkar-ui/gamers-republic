@@ -122,7 +122,7 @@ export function AvatarUpload({ currentAvatarUrl, username, onUploadComplete }: A
       {!imgSrc && (
         <button
           onClick={() => inputRef.current?.click()}
-          className="text-sm text-violet-400 hover:text-violet-300 transition-colors"
+          className="text-sm text-orange-400 hover:text-orange-300 transition-colors"
         >
           Change avatar
         </button>

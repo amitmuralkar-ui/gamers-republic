@@ -66,7 +66,7 @@ export default function SettingsPage() {
   if (!user) {
     return (
       <div className="p-6 flex items-center justify-center min-h-96">
-        <div className="w-8 h-8 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -110,7 +110,7 @@ export default function SettingsPage() {
             onChange={(e) => setBio(e.target.value)}
             maxLength={200}
             rows={3}
-            className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-xl px-4 py-2.5 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors resize-none"
+            className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-xl px-4 py-2.5 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors resize-none"
           />
           <p className="text-xs text-slate-500 text-right mt-1">{bio.length}/200</p>
         </div>

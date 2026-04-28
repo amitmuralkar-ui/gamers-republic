@@ -50,7 +50,7 @@ export default async function MessagesPage() {
               <Link
                 key={room.id}
                 href={`/messages/${room.id}`}
-                className="flex items-center gap-4 p-4 bg-slate-900 border border-slate-800 hover:border-violet-500/40 rounded-2xl transition-colors group"
+                className="flex items-center gap-4 p-4 bg-slate-900 border border-slate-800 hover:border-orange-500/40 rounded-2xl transition-colors group"
               >
                 <div className="w-12 h-12 rounded-full bg-slate-800 overflow-hidden shrink-0">
                   {other.avatarUrl ? (
@@ -69,7 +69,7 @@ export default async function MessagesPage() {
                     </p>
                   )}
                 </div>
-                <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-violet-400 transition-colors shrink-0" />
+                <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-orange-400 transition-colors shrink-0" />
               </Link>
             )
           })}

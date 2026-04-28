@@ -28,7 +28,7 @@ export function Sidebar({ userId, avatarUrl, username, isAdmin }: SidebarProps) 
       {/* Desktop sidebar */}
       <aside className="hidden md:flex flex-col w-60 bg-slate-900 border-r border-slate-800 h-screen sticky top-0 shrink-0">
         <div className="flex items-center gap-2.5 px-4 py-4 border-b border-slate-800">
-          <div className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shrink-0">
             <Gamepad2 className="w-4 h-4 text-white" />
           </div>
           <span className="font-bold text-white text-sm">Gamers Republic</span>
@@ -42,7 +42,7 @@ export function Sidebar({ userId, avatarUrl, username, isAdmin }: SidebarProps) 
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                 pathname.startsWith(href)
-                  ? "bg-violet-600/20 text-violet-400"
+                  ? "bg-orange-600/20 text-orange-400"
                   : "text-slate-400 hover:text-white hover:bg-slate-800"
               )}
             >
@@ -72,7 +72,7 @@ export function Sidebar({ userId, avatarUrl, username, isAdmin }: SidebarProps) 
             className={cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
               pathname === "/settings"
-                ? "bg-violet-600/20 text-violet-400"
+                ? "bg-orange-600/20 text-orange-400"
                 : "text-slate-400 hover:text-white hover:bg-slate-800"
             )}
           >
@@ -105,7 +105,7 @@ export function Sidebar({ userId, avatarUrl, username, isAdmin }: SidebarProps) 
             href={href}
             className={cn(
               "flex-1 flex flex-col items-center gap-1 py-2.5 text-xs font-medium transition-colors",
-              pathname.startsWith(href) ? "text-violet-400" : "text-slate-500"
+              pathname.startsWith(href) ? "text-orange-400" : "text-slate-500"
             )}
           >
             <Icon className="w-5 h-5" />

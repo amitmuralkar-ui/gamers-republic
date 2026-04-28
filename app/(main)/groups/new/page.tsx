@@ -51,7 +51,7 @@ export default function NewGroupPage() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={3}
-            className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-xl px-4 py-2.5 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors resize-none"
+            className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 rounded-xl px-4 py-2.5 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors resize-none"
           />
         </div>
 
@@ -67,7 +67,7 @@ export default function NewGroupPage() {
                 onClick={() => setIsPublic(val)}
                 className={`flex items-center gap-3 p-3 rounded-xl border transition-colors text-left ${
                   isPublic === val
-                    ? "border-violet-500 bg-violet-600/10 text-white"
+                    ? "border-orange-500 bg-orange-600/10 text-white"
                     : "border-slate-700 bg-slate-800 text-slate-400 hover:border-slate-600"
                 }`}
               >

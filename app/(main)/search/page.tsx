@@ -48,7 +48,7 @@ export default function SearchPage() {
           <h2 className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-3">Players</h2>
           <div className="space-y-2">
             {users.map((u) => (
-              <Link key={u.id} href={`/profile/${u.id}`} className="flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 hover:border-violet-500/40 rounded-xl transition-colors">
+              <Link key={u.id} href={`/profile/${u.id}`} className="flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 hover:border-orange-500/40 rounded-xl transition-colors">
                 <div className="w-10 h-10 rounded-full bg-slate-700 overflow-hidden shrink-0">
                   {u.avatarUrl ? <img src={u.avatarUrl} alt={u.username} className="w-full h-full object-cover" /> : (
                     <div className="w-full h-full flex items-center justify-center text-slate-400 font-bold text-sm">
@@ -72,9 +72,9 @@ export default function SearchPage() {
           <h2 className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-3">Groups</h2>
           <div className="space-y-2">
             {groups.map((g) => (
-              <Link key={g.id} href={`/groups/${g.id}`} className="flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 hover:border-violet-500/40 rounded-xl transition-colors">
-                <div className="w-10 h-10 rounded-xl bg-violet-600/20 flex items-center justify-center shrink-0">
-                  <Users className="w-4 h-4 text-violet-400" />
+              <Link key={g.id} href={`/groups/${g.id}`} className="flex items-center gap-3 p-3 bg-slate-900 border border-slate-800 hover:border-orange-500/40 rounded-xl transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-orange-600/20 flex items-center justify-center shrink-0">
+                  <Users className="w-4 h-4 text-orange-400" />
                 </div>
                 <div>
                   <p className="text-white font-medium text-sm">{g.name}</p>
