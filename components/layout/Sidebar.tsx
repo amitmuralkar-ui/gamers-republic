@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, MessageSquare, Users, Play, Settings, Gamepad2, Search, ShieldCheck } from "lucide-react"
+import { Home, MessageSquare, Users, Play, Settings, Gamepad2, Search, ShieldCheck, Trophy, UserSearch } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
@@ -11,6 +11,8 @@ const navItems = [
   { href: "/messages", icon: MessageSquare, label: "Messages" },
   { href: "/groups", icon: Users, label: "Groups" },
   { href: "/clips", icon: Play, label: "Clips" },
+  { href: "/users", icon: UserSearch, label: "Players" },
+  { href: "/quests", icon: Trophy, label: "Quests" },
 ]
 
 interface SidebarProps {

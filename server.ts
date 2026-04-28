@@ -36,20 +36,19 @@ app.prepare().then(() => {
         roomId: string
         content: string
         senderId: string
-        roomType: "group" | "dm"
+        roomType: "group" | "dm" | "channel"
       }) => {
         const { roomId, content, senderId, roomType } = data
         if (!content.trim()) return
 
         try {
+          const roomField =
+            roomType === "group" ? { groupId: roomId } :
+            roomType === "channel" ? { channelId: roomId } :
+            { directRoomId: roomId }
+
           const message = await prisma.message.create({
-            data: {
-              content: content.trim(),
-              senderId,
-              ...(roomType === "group"
-                ? { groupId: roomId }
-                : { directRoomId: roomId }),
-            },
+            data: { content: content.trim(), senderId, ...roomField },
             include: {
               sender: {
                 select: {

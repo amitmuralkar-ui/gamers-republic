@@ -8,7 +8,7 @@ import { TagBadge } from "@/components/ui/TagBadge"
 
 interface ChatWindowProps {
   roomId: string
-  roomType: "group" | "dm"
+  roomType: "group" | "dm" | "channel"
   initialMessages: ChatMessage[]
 }
 

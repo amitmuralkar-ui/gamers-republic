@@ -19,7 +19,7 @@ export interface ChatMessage {
 export function useChat(
   roomId: string,
   initialMessages: ChatMessage[],
-  roomType: "group" | "dm"
+  roomType: "group" | "dm" | "channel"
 ) {
   const socket = useSocket()
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)

@@ -22,18 +22,22 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts     Account[]
-  sessions     Session[]
-  ownedGroups  Group[]       @relation("GroupOwner")
-  memberships  GroupMember[]
-  sentMessages Message[]
-  clips        Clip[]
-  clipComments ClipComment[]
-  clipLikes    ClipLike[]
-  friendsA     Friend[]      @relation("FriendA")
-  friendsB     Friend[]      @relation("FriendB")
-  otps         Otp[]
-  tags         UserTag[]
+  accounts        Account[]
+  sessions        Session[]
+  ownedGroups     Group[]              @relation("GroupOwner")
+  memberships     GroupMember[]
+  sentMessages    Message[]
+  clips           Clip[]
+  clipComments    ClipComment[]
+  clipLikes       ClipLike[]
+  friendsA        Friend[]             @relation("FriendA")
+  friendsB        Friend[]             @relation("FriendB")
+  otps            Otp[]
+  tags            UserTag[]
+  createdEvents   Event[]
+  decorations     UserDecoration[]
+  questCompletions QuestCompletion[]
+  roleAssignments GroupRoleAssignment[]
 }
 
 model Tag {
@@ -109,6 +113,9 @@ model Group {
   owner       User          @relation("GroupOwner", fields: [ownerId], references: [id])
   members     GroupMember[]
   messages    Message[]
+  channels    Channel[]
+  events      Event[]
+  roles       GroupRole[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -122,6 +129,48 @@ model GroupMember {
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([groupId, userId])
+}
+
+model GroupRole {
+  id          String                @id @default(cuid())
+  name        String
+  color       String                @default("#94a3b8")
+  groupId     String
+  group       Group                 @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  assignments GroupRoleAssignment[]
+  createdAt   DateTime              @default(now())
+}
+
+model GroupRoleAssignment {
+  userId String
+  roleId String
+  user   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   GroupRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model Channel {
+  id        String    @id @default(cuid())
+  name      String
+  type      String    @default("text")
+  groupId   String
+  group     Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  order     Int       @default(0)
+  createdAt DateTime  @default(now())
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startAt     DateTime
+  groupId     String?
+  group       Group?   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  creatorId   String
+  creator     User     @relation(fields: [creatorId], references: [id])
+  createdAt   DateTime @default(now())
 }
 
 model DirectRoom {
@@ -141,6 +190,8 @@ model Message {
   sender       User        @relation(fields: [senderId], references: [id])
   groupId      String?
   group        Group?      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  channelId    String?
+  channel      Channel?    @relation(fields: [channelId], references: [id], onDelete: Cascade)
   directRoomId String?
   directRoom   DirectRoom? @relation(fields: [directRoomId], references: [id], onDelete: Cascade)
   type         String      @default("text")
@@ -190,4 +241,25 @@ model Friend {
   createdAt DateTime @default(now())
 
   @@unique([userAId, userBId])
+}
+
+model UserDecoration {
+  id       String   @id @default(cuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type     String
+  name     String
+  style    String
+  active   Boolean  @default(true)
+  earnedAt DateTime @default(now())
+}
+
+model QuestCompletion {
+  id          String   @id @default(cuid())
+  userId      String
+  questId     String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@unique([userId, questId])
 }

@@ -95,6 +95,45 @@ const statements = [
     FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE
   )`,
 
+  `CREATE TABLE IF NOT EXISTS "Channel" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "type" TEXT NOT NULL DEFAULT 'text',
+    "groupId" TEXT NOT NULL,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("groupId") REFERENCES "Group" ("id") ON DELETE CASCADE
+  )`,
+
+  `CREATE TABLE IF NOT EXISTS "GroupRole" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "color" TEXT NOT NULL DEFAULT '#94a3b8',
+    "groupId" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("groupId") REFERENCES "Group" ("id") ON DELETE CASCADE
+  )`,
+
+  `CREATE TABLE IF NOT EXISTS "GroupRoleAssignment" (
+    "userId" TEXT NOT NULL,
+    "roleId" TEXT NOT NULL,
+    PRIMARY KEY ("userId", "roleId"),
+    FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("roleId") REFERENCES "GroupRole" ("id") ON DELETE CASCADE
+  )`,
+
+  `CREATE TABLE IF NOT EXISTS "Event" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "startAt" DATETIME NOT NULL,
+    "groupId" TEXT,
+    "creatorId" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("groupId") REFERENCES "Group" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("creatorId") REFERENCES "User" ("id")
+  )`,
+
   `CREATE TABLE IF NOT EXISTS "DirectRoom" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "user1Id" TEXT NOT NULL,
@@ -108,11 +147,13 @@ const statements = [
     "content" TEXT NOT NULL,
     "senderId" TEXT NOT NULL,
     "groupId" TEXT,
+    "channelId" TEXT,
     "directRoomId" TEXT,
     "type" TEXT NOT NULL DEFAULT 'text',
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY ("senderId") REFERENCES "User" ("id"),
     FOREIGN KEY ("groupId") REFERENCES "Group" ("id") ON DELETE CASCADE,
+    FOREIGN KEY ("channelId") REFERENCES "Channel" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("directRoomId") REFERENCES "DirectRoom" ("id") ON DELETE CASCADE
   )`,
 
@@ -173,10 +214,45 @@ const statements = [
     FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE,
     FOREIGN KEY ("tagId") REFERENCES "Tag" ("id") ON DELETE CASCADE
   )`,
+
+  `CREATE TABLE IF NOT EXISTS "UserDecoration" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "style" TEXT NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
+    "earnedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE
+  )`,
+
+  `CREATE TABLE IF NOT EXISTS "QuestCompletion" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "questId" TEXT NOT NULL,
+    "completedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE
+  )`,
+  `CREATE UNIQUE INDEX IF NOT EXISTS "QuestCompletion_userId_questId_key" ON "QuestCompletion"("userId", "questId")`,
+]
+
+// Try to add channelId column to existing Message table (safe to ignore if already exists)
+const migrations = [
+  `ALTER TABLE "Message" ADD COLUMN "channelId" TEXT REFERENCES "Channel" ("id") ON DELETE CASCADE`,
 ]
 
 for (const sql of statements) {
   await client.execute(sql)
   process.stdout.write(".")
 }
+
+for (const sql of migrations) {
+  try {
+    await client.execute(sql)
+    process.stdout.write("m")
+  } catch {
+    process.stdout.write("-")
+  }
+}
+
 console.log("\n✓ Turso database initialised")

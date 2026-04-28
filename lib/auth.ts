@@ -1,4 +1,8 @@
 import NextAuth from "next-auth"
+
+function isAdminUser(username: string) {
+  return (process.env.ADMIN_USERNAME ?? "").split(",").map((s) => s.trim()).includes(username)
+}
 import Google from "next-auth/providers/google"
 import Discord from "next-auth/providers/discord"
 import Credentials from "next-auth/providers/credentials"
@@ -25,7 +29,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             async authorize(credentials) {
               const username = (credentials?.username as string | undefined)?.trim()
               if (!username) return null
-              const isAdmin = process.env.ADMIN_USERNAME === username
+              const isAdmin = isAdminUser(username)
               let user = await prisma.user.findUnique({ where: { username } })
               if (!user) {
                 user = await prisma.user.create({
@@ -102,7 +106,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 avatarUrl: user.image ?? null,
                 emailVerified: email ? new Date() : null,
                 discordId,
-                isAdmin: process.env.ADMIN_USERNAME === username,
+                isAdmin: isAdminUser(username),
               },
             })
           } else if (discordId && !dbUser.discordId) {

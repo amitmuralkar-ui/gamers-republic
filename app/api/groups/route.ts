@@ -40,6 +40,12 @@ export async function POST(req: NextRequest) {
       inviteCode: isPublic ? null : generateInviteCode(),
       ownerId: userId,
       members: { create: { userId, role: "owner" } },
+      channels: {
+        create: [
+          { name: "general", type: "text", order: 0 },
+          { name: "voice", type: "voice", order: 1 },
+        ],
+      },
     },
   })
 
