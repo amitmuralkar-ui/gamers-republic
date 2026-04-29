@@ -77,7 +77,7 @@ export default async function UsersPage({ searchParams }: SearchProps) {
             <Link
               key={user.id}
               href={`/profile/${user.id}`}
-              className="flex items-start gap-3 bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-4 transition-colors"
+              className="flex items-start gap-3 bg-slate-900 border border-slate-800 hover:border-orange-500/40 hover:-translate-y-0.5 rounded-2xl p-4 transition-all duration-200"
             >
               <DecorationAvatar
                 username={user.username}

@@ -35,7 +35,7 @@ export function ClipCard({ clip, currentUserId }: ClipCardProps) {
   const timeAgo = new Date(clip.createdAt).toLocaleDateString()
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition-colors">
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-orange-500/40 hover:-translate-y-0.5 transition-all duration-200 group/card">
       {/* Video */}
       <div
         className="relative aspect-video bg-slate-950 cursor-pointer group"

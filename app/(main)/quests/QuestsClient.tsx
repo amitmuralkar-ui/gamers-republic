@@ -125,7 +125,7 @@ export function QuestsClient({ completedQuestIds: initial, decorations: initialD
           return (
             <div
               key={quest.id}
-              className={`bg-slate-900 border rounded-2xl p-5 ${isDone ? "border-slate-700 opacity-75" : "border-slate-800"}`}
+              className={`bg-slate-900 border rounded-2xl p-5 transition-all duration-200 ${isDone ? "border-slate-700 opacity-75" : "border-slate-800 hover:border-orange-500/40 hover:-translate-y-0.5"}`}
             >
               <div className="flex items-start gap-3 mb-3">
                 <div

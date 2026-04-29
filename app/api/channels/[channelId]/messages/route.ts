@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { verifySession } from "@/lib/dal"
 import { prisma } from "@/lib/db"
 
-interface Props { params: Promise<{ id: string }> }
+interface Props { params: Promise<{ channelId: string }> }
 
 const senderSelect = {
   id: true, username: true, displayName: true, avatarUrl: true,
@@ -14,11 +14,14 @@ function serialize(m: { createdAt: Date; sender: { tags: { tag: { id: string; na
 }
 
 export async function GET(req: NextRequest, { params }: Props) {
+  const { channelId } = await params
   const { userId } = await verifySession()
-  const { id } = await params
+
+  const channel = await prisma.channel.findUnique({ where: { id: channelId } })
+  if (!channel) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
   const member = await prisma.groupMember.findUnique({
-    where: { groupId_userId: { groupId: id, userId } },
+    where: { groupId_userId: { groupId: channel.groupId, userId } },
   })
   if (!member) return NextResponse.json({ error: "Forbidden" }, { status: 403 })
 
@@ -26,8 +29,7 @@ export async function GET(req: NextRequest, { params }: Props) {
 
   const messages = await prisma.message.findMany({
     where: {
-      groupId: id,
-      channelId: null,
+      OR: [{ channelId }, { groupId: channel.groupId, channelId: null }],
       ...(since ? { createdAt: { gt: new Date(since) } } : {}),
     },
     include: { sender: { select: senderSelect } },
@@ -39,11 +41,14 @@ export async function GET(req: NextRequest, { params }: Props) {
 }
 
 export async function POST(req: NextRequest, { params }: Props) {
+  const { channelId } = await params
   const { userId } = await verifySession()
-  const { id } = await params
+
+  const channel = await prisma.channel.findUnique({ where: { id: channelId } })
+  if (!channel) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
   const member = await prisma.groupMember.findUnique({
-    where: { groupId_userId: { groupId: id, userId } },
+    where: { groupId_userId: { groupId: channel.groupId, userId } },
   })
   if (!member) return NextResponse.json({ error: "Forbidden" }, { status: 403 })
 
@@ -51,7 +56,7 @@ export async function POST(req: NextRequest, { params }: Props) {
   if (!content?.trim()) return NextResponse.json({ error: "Empty message" }, { status: 400 })
 
   const message = await prisma.message.create({
-    data: { content: content.trim(), senderId: userId, groupId: id },
+    data: { content: content.trim(), senderId: userId, channelId },
     include: { sender: { select: senderSelect } },
   })
 

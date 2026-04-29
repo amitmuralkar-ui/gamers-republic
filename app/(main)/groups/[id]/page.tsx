@@ -78,7 +78,7 @@ export default async function GroupPage({ params, searchParams }: Props) {
       include: {
         user: {
           select: {
-            id: true, username: true, displayName: true, avatarUrl: true,
+            id: true, username: true, displayName: true, avatarUrl: true, bio: true,
             tags: { select: { tag: { select: { id: true, name: true, color: true } } } },
             decorations: { where: { active: true }, select: { id: true, type: true, name: true, style: true } },
             roleAssignments: { include: { role: { select: { id: true, name: true, color: true } } } },
