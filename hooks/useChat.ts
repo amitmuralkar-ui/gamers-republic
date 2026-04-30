@@ -38,7 +38,7 @@ export function useChat(
   )
   const url = apiPath(roomType, roomId)
 
-  // Poll every 3 s for new messages (works on Vercel and local)
+  // Poll every 1.5 s for new messages (works on Vercel and local)
   useEffect(() => {
     const poll = async () => {
       try {
@@ -55,7 +55,9 @@ export function useChat(
         })
       } catch {}
     }
-    const id = setInterval(poll, 3000)
+    // fire once immediately on mount so there's no initial wait
+    poll()
+    const id = setInterval(poll, 1500)
     return () => clearInterval(id)
   }, [url])
 
