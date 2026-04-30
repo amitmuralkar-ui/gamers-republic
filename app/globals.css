@@ -17,3 +17,64 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #334155 transparent;
 }
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes neon-glow {
+  0%, 100% { box-shadow: 0 0 4px #22d3ee80, 0 0 10px #22d3ee40; }
+  50%       { box-shadow: 0 0 10px #22d3ee, 0 0 24px #22d3ee80; }
+}
+
+@keyframes aurora-spin {
+  to { --aurora-angle: 360deg; }
+}
+
+@property --aurora-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.aurora-ring {
+  position: relative;
+}
+.aurora-ring::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  background: conic-gradient(from var(--aurora-angle), #ff0080, #ff8c00, #ffe600, #39d353, #00b4d8, #a855f7, #ff0080);
+  animation: aurora-spin 3s linear infinite;
+  z-index: -1;
+}
+
+.quest-card {
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.quest-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 28px var(--quest-glow, transparent);
+}
+
+.nameplate-shimmer {
+  background: linear-gradient(90deg, #facc15, #fef08a, #facc15) 200% center / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s linear infinite;
+}
+
+.nameplate-flame {
+  background: linear-gradient(90deg, #f97316, #fbbf24, #f97316) 200% center / 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 1.5s linear infinite;
+}
+
+.nameplate-neon {
+  animation: neon-glow 1.8s ease-in-out infinite;
+}

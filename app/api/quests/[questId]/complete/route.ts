@@ -3,10 +3,14 @@ import { verifySession } from "@/lib/dal"
 import { prisma } from "@/lib/db"
 
 const QUEST_REWARDS: Record<string, { type: string; name: string; style: string }> = {
-  "click-frenzy": { type: "nameplate", name: "Gold Nameplate", style: "gold" },
-  "memory-match": { type: "pfp-frame", name: "Star Frame", style: "star" },
-  "snake-run": { type: "nameplate", name: "Flame Nameplate", style: "flame" },
-  "word-blast": { type: "pfp-frame", name: "Lightning Frame", style: "lightning" },
+  "click-frenzy":     { type: "nameplate", name: "Gold Nameplate",      style: "gold" },
+  "memory-match":     { type: "pfp-frame", name: "Star Frame",          style: "star" },
+  "snake-run":        { type: "nameplate", name: "Flame Nameplate",     style: "flame" },
+  "word-blast":       { type: "pfp-frame", name: "Lightning Frame",     style: "lightning" },
+  "reflex-rush":      { type: "nameplate", name: "Neon Nameplate",      style: "neon" },
+  "aim-trainer":      { type: "pfp-frame", name: "Crosshair Frame",     style: "crosshair" },
+  "sequence-memory":  { type: "nameplate", name: "Pixel Nameplate",     style: "pixel" },
+  "color-match":      { type: "pfp-frame", name: "Aurora Frame",        style: "aurora" },
 }
 
 interface Props { params: Promise<{ questId: string }> }
